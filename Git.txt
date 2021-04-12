@@ -56,7 +56,8 @@ git config --global mergetool.kdiff3.trustExitCode false
 _______________________________________________________________________________________________________________________
 git remote add origin https://github.com/iluha5596/git-project.git - локальный репозиторий проталкиваем на GitHab
 git remote -проверить существующие репозитории
-git push -u origin master или git push- добавить изменения в репозиторий 
+git push -u origin master или git push- добавить изменения в репозиторий
+git pull - добавить последние изменения из репозитория на локалку 
 git clone https://github.com/iluha5596/git-project - клонируем то, что в репозитории
 git fetch origin - получить изменения 
 git merge origin/master - слить полученные изменения из репозитория со своей локальной веткой
