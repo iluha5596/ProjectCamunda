@@ -4,46 +4,51 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.2.5.RELEASE</version>
-    <relativePath/>
-  </parent>
-
-  <properties>
-      <java.version>8</java.version>
-      <camunda.version>7.12.0</camunda.version>
-  </properties>
-
-  <groupId>com.reunico.demo</groupId>
-  <artifactId>app</artifactId>
+  <groupId>camunda</groupId>
+  <artifactId>camunda-test</artifactId>
   <version>1.0.0-SNAPSHOT</version>
-    <dependencyManagement>
-        <dependencies>
-        <dependency>
-            <groupId>org.camunda.bpm</groupId>
-            <artifactId>camunda-bom</artifactId>
-            <version>7.12.0</version>
-            <scope>import</scope>
-            <type>pom</type>
-        </dependency>
-        </dependencies>
-    </dependencyManagement>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>2.4.3</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
 
+      <dependency>
+        <groupId>org.camunda.bpm</groupId>
+        <artifactId>camunda-bom</artifactId>
+        <version>7.15.0</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <dependencies>
     <dependency>
       <groupId>org.camunda.bpm.springboot</groupId>
       <artifactId>camunda-bpm-spring-boot-starter-rest</artifactId>
-      <version>3.4.2</version>
+      <version>7.15.0</version>
     </dependency>
 
     <dependency>
       <groupId>org.camunda.bpm.springboot</groupId>
       <artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
-      <version>3.4.2</version>
+      <version>7.15.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.camunda.bpm</groupId>
+      <artifactId>camunda-engine-plugin-spin</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.camunda.spin</groupId>
+      <artifactId>camunda-spin-dataformat-all</artifactId>
     </dependency>
 
     <dependency>
@@ -53,34 +58,8 @@
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-data-jpa</artifactId>
+      <artifactId>spring-boot-starter-jdbc</artifactId>
     </dependency>
-
-
-      <dependency>
-          <groupId>org.camunda.connect</groupId>
-          <artifactId>camunda-connect-core</artifactId>
-      </dependency>
-      <!-- to use with @JsonIgnore -->
-      <dependency>
-          <groupId>org.camunda.connect</groupId>
-          <artifactId>camunda-connect-connectors-all</artifactId>
-      </dependency>
-
-      <dependency>
-          <groupId>org.camunda.spin</groupId>
-          <artifactId>camunda-spin-core</artifactId>
-      </dependency>
-      <dependency>
-          <groupId>org.camunda.spin</groupId>
-          <artifactId>camunda-spin-dataformat-json-jackson</artifactId>
-      </dependency>
-      <!-- mandatory for serialization -->
-      <dependency>
-          <groupId>org.camunda.bpm</groupId>
-          <artifactId>camunda-engine-plugin-spin</artifactId>
-      </dependency>
-
 
   </dependencies>
 
@@ -89,6 +68,17 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>2.4.3</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <source>8</source>
+          <target>8</target>
+        </configuration>
       </plugin>
     </plugins>
   </build>
