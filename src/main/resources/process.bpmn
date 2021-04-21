@@ -3,10 +3,60 @@
   <bpmn:collaboration id="Collaboration_15rrfcm">
     <bpmn:participant id="Participant_17upsvn" name="Заявление на отпуск" processRef="Process_0ge1ye0" />
   </bpmn:collaboration>
-  <bpmn:process id="Process_0ge1ye0" isExecutable="true">
+  <bpmn:process id="Process_0ge1ye0" name="Заявление на отпуск" isExecutable="true">
     <bpmn:endEvent id="Event_1j0slml" name="Одобрено">
       <bpmn:incoming>Flow_02cfopu</bpmn:incoming>
     </bpmn:endEvent>
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1y4vbka</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_04mln2l" sourceRef="FillApp" targetRef="Gateway_0vpetlv" />
+    <bpmn:sequenceFlow id="Flow_0w9rf7i" sourceRef="AcceptionApp" targetRef="Gateway_05zw3j6" />
+    <bpmn:userTask id="AcceptionApp" name="Одобрить заявление">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="Acception" label="Решение" type="enum">
+            <camunda:value id="OK" name="Одобрено" />
+            <camunda:value id="Cancel" name="Отказнао" />
+            <camunda:value id="Fix" name="Исправить" />
+          </camunda:formField>
+          <camunda:formField id="Comment" label="Комментарий руководителя" type="string" />
+          <camunda:formField id="Full_Name_Emp" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="Date_Vac_start" type="date">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="Date_Vac_end" type="date">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_110oh6p</bpmn:incoming>
+      <bpmn:outgoing>Flow_0w9rf7i</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Event_041mp5m" name="Отказано">
+      <bpmn:incoming>Flow_0o4kqwb</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="Gateway_05zw3j6">
+      <bpmn:incoming>Flow_0w9rf7i</bpmn:incoming>
+      <bpmn:outgoing>Flow_02cfopu</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0o4kqwb</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1jtac8t</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_02cfopu" name="Одобрено" sourceRef="Gateway_05zw3j6" targetRef="Event_1j0slml">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${Acception=='OK'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0o4kqwb" name="Отказано" sourceRef="Gateway_05zw3j6" targetRef="Event_041mp5m">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${Acception=='Cancel'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1y4vbka" sourceRef="StartEvent_1" targetRef="FillApp" />
     <bpmn:userTask id="FillApp" name="Заполненить заявление на отпуск">
       <bpmn:extensionElements>
         <camunda:formData>
@@ -18,92 +68,55 @@
           <camunda:formField id="Date_app" label="Дата заполнения заявления" type="date" />
         </camunda:formData>
       </bpmn:extensionElements>
-      <bpmn:incoming>Flow_0cvdztn</bpmn:incoming>
+      <bpmn:incoming>Flow_1y4vbka</bpmn:incoming>
       <bpmn:outgoing>Flow_04mln2l</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:startEvent id="StartEvent_1">
-      <bpmn:outgoing>Flow_16djpr2</bpmn:outgoing>
-    </bpmn:startEvent>
-    <bpmn:sequenceFlow id="Flow_16djpr2" sourceRef="StartEvent_1" targetRef="Gateway_16ws6bu" />
-    <bpmn:sequenceFlow id="Flow_04mln2l" sourceRef="FillApp" targetRef="AcceptionApp" />
-    <bpmn:sequenceFlow id="Flow_0w9rf7i" sourceRef="AcceptionApp" targetRef="Gateway_05zw3j6" />
-    <bpmn:userTask id="AcceptionApp" name="Одобрить заявление">
+    <bpmn:userTask id="Activity_0glitxu" name="Внести изменения в заявление на отпуск">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="Acception" label="Решение" type="enum">
-            <camunda:value id="OK" name="Одобрено" />
-            <camunda:value id="Cancel" name="Отказнао" />
-            <camunda:value id="Fix" name="Исправить" />
+          <camunda:formField id="Full_Name_Emp" label="ФИО сотрудника" type="string" />
+          <camunda:formField id="Full_Name_Lead" label="ФИО руководителя" type="string" />
+          <camunda:formField id="Group" label="Подразделение" type="string" />
+          <camunda:formField id="Date_Vac_start" label="Дата начала отпуска" type="date" />
+          <camunda:formField id="Date_Vac_end" label="Дата окончания отпуска" type="date" />
+          <camunda:formField id="Date_app" label="Дата заполнения заявления" type="date" />
+          <camunda:formField id="Comment" label="Комментарий руководителя" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
           </camunda:formField>
-          <camunda:formField id="Comment" label="Комментаний" type="string" />
-          <camunda:formField id="Full_Name_Emp" type="string" />
-          <camunda:formField id="Date_Vac_start" type="date" />
-          <camunda:formField id="Date_Vac_end" type="date" />
         </camunda:formData>
       </bpmn:extensionElements>
-      <bpmn:incoming>Flow_04mln2l</bpmn:incoming>
-      <bpmn:outgoing>Flow_0w9rf7i</bpmn:outgoing>
+      <bpmn:incoming>Flow_1jtac8t</bpmn:incoming>
+      <bpmn:outgoing>Flow_1i8h8x5</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:endEvent id="Event_041mp5m" name="Отказано">
-      <bpmn:incoming>Flow_0o4kqwb</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:exclusiveGateway id="Gateway_05zw3j6">
-      <bpmn:incoming>Flow_0w9rf7i</bpmn:incoming>
-      <bpmn:outgoing>Flow_02cfopu</bpmn:outgoing>
-      <bpmn:outgoing>Flow_0o4kqwb</bpmn:outgoing>
-      <bpmn:outgoing>Flow_1knjsmh</bpmn:outgoing>
+    <bpmn:sequenceFlow id="Flow_1i8h8x5" sourceRef="Activity_0glitxu" targetRef="Gateway_0vpetlv" />
+    <bpmn:exclusiveGateway id="Gateway_0vpetlv">
+      <bpmn:incoming>Flow_1i8h8x5</bpmn:incoming>
+      <bpmn:incoming>Flow_04mln2l</bpmn:incoming>
+      <bpmn:outgoing>Flow_110oh6p</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_02cfopu" name="Одобрено" sourceRef="Gateway_05zw3j6" targetRef="Event_1j0slml">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${Acception=='OK'}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_0o4kqwb" name="Отказано" sourceRef="Gateway_05zw3j6" targetRef="Event_041mp5m">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${Acception=='Cancel'}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:exclusiveGateway id="Gateway_16ws6bu">
-      <bpmn:incoming>Flow_16djpr2</bpmn:incoming>
-      <bpmn:incoming>Flow_1knjsmh</bpmn:incoming>
-      <bpmn:outgoing>Flow_0cvdztn</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_0cvdztn" sourceRef="Gateway_16ws6bu" targetRef="FillApp" />
-    <bpmn:sequenceFlow id="Flow_1knjsmh" name="Изменить" sourceRef="Gateway_05zw3j6" targetRef="Gateway_16ws6bu">
+    <bpmn:sequenceFlow id="Flow_110oh6p" sourceRef="Gateway_0vpetlv" targetRef="AcceptionApp" />
+    <bpmn:sequenceFlow id="Flow_1jtac8t" name="Внести изменения" sourceRef="Gateway_05zw3j6" targetRef="Activity_0glitxu">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${Acception=='Fix'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:textAnnotation id="TextAnnotation_1rjngss">
-      <bpmn:text>Задача сотрудника</bpmn:text>
-    </bpmn:textAnnotation>
-    <bpmn:association id="Association_1v6mc06" sourceRef="FillApp" targetRef="TextAnnotation_1rjngss" />
     <bpmn:textAnnotation id="TextAnnotation_0aoj8nq">
       <bpmn:text>Задача руководителя</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Association_1s3ic50" sourceRef="AcceptionApp" targetRef="TextAnnotation_0aoj8nq" />
+    <bpmn:textAnnotation id="TextAnnotation_1rjngss">
+      <bpmn:text>Задача сотрудника</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1v6mc06" sourceRef="FillApp" targetRef="TextAnnotation_1rjngss" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_15rrfcm">
       <bpmndi:BPMNShape id="Participant_17upsvn_di" bpmnElement="Participant_17upsvn" isHorizontal="true">
         <dc:Bounds x="160" y="80" width="780" height="510" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0aoj8nq_di" bpmnElement="TextAnnotation_0aoj8nq">
-        <dc:Bounds x="590" y="205" width="100" height="40" />
+      <bpmndi:BPMNShape id="TextAnnotation_1rjngss_di" bpmnElement="TextAnnotation_1rjngss">
+        <dc:Bounds x="320" y="200" width="100" height="40" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_0w9rf7i_di" bpmnElement="Flow_0w9rf7i">
-        <di:waypoint x="660" y="330" />
-        <di:waypoint x="705" y="330" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_04mln2l_di" bpmnElement="Flow_04mln2l">
-        <di:waypoint x="460" y="330" />
-        <di:waypoint x="560" y="330" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_16djpr2_di" bpmnElement="Flow_16djpr2">
-        <di:waypoint x="238" y="330" />
-        <di:waypoint x="265" y="330" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_02cfopu_di" bpmnElement="Flow_02cfopu">
-        <di:waypoint x="755" y="330" />
-        <di:waypoint x="852" y="330" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="778" y="312" width="52" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0o4kqwb_di" bpmnElement="Flow_0o4kqwb">
         <di:waypoint x="730" y="355" />
         <di:waypoint x="730" y="410" />
@@ -112,17 +125,39 @@
           <dc:Bounds x="786" y="393" width="48" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0cvdztn_di" bpmnElement="Flow_0cvdztn">
-        <di:waypoint x="315" y="330" />
-        <di:waypoint x="360" y="330" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1knjsmh_di" bpmnElement="Flow_1knjsmh">
-        <di:waypoint x="730" y="305" />
-        <di:waypoint x="730" y="170" />
-        <di:waypoint x="290" y="170" />
-        <di:waypoint x="290" y="305" />
+      <bpmndi:BPMNEdge id="Flow_02cfopu_di" bpmnElement="Flow_02cfopu">
+        <di:waypoint x="755" y="330" />
+        <di:waypoint x="852" y="330" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="485" y="152" width="50" height="14" />
+          <dc:Bounds x="778" y="312" width="52" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0w9rf7i_di" bpmnElement="Flow_0w9rf7i">
+        <di:waypoint x="660" y="330" />
+        <di:waypoint x="705" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_04mln2l_di" bpmnElement="Flow_04mln2l">
+        <di:waypoint x="400" y="330" />
+        <di:waypoint x="455" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1y4vbka_di" bpmnElement="Flow_1y4vbka">
+        <di:waypoint x="238" y="330" />
+        <di:waypoint x="300" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1i8h8x5_di" bpmnElement="Flow_1i8h8x5">
+        <di:waypoint x="480" y="200" />
+        <di:waypoint x="480" y="305" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_110oh6p_di" bpmnElement="Flow_110oh6p">
+        <di:waypoint x="505" y="330" />
+        <di:waypoint x="560" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1jtac8t_di" bpmnElement="Flow_1jtac8t">
+        <di:waypoint x="730" y="305" />
+        <di:waypoint x="730" y="160" />
+        <di:waypoint x="530" y="160" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="635" y="126" width="56" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Event_1j0slml_di" bpmnElement="Event_1j0slml">
@@ -131,14 +166,8 @@
           <dc:Bounds x="846" y="355" width="52" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1tmkoua_di" bpmnElement="FillApp">
-        <dc:Bounds x="360" y="290" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="202" y="312" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1rjngss_di" bpmnElement="TextAnnotation_1rjngss">
-        <dc:Bounds x="390" y="200" width="100" height="40" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_09i4ry0_di" bpmnElement="AcceptionApp">
         <dc:Bounds x="560" y="290" width="100" height="80" />
@@ -152,16 +181,25 @@
       <bpmndi:BPMNShape id="Gateway_05zw3j6_di" bpmnElement="Gateway_05zw3j6" isMarkerVisible="true">
         <dc:Bounds x="705" y="305" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_16ws6bu_di" bpmnElement="Gateway_16ws6bu" isMarkerVisible="true">
-        <dc:Bounds x="265" y="305" width="50" height="50" />
+      <bpmndi:BPMNShape id="TextAnnotation_0aoj8nq_di" bpmnElement="TextAnnotation_0aoj8nq">
+        <dc:Bounds x="590" y="205" width="100" height="40" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Association_1v6mc06_di" bpmnElement="Association_1v6mc06">
-        <di:waypoint x="420" y="290" />
-        <di:waypoint x="433" y="240" />
-      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_1tmkoua_di" bpmnElement="FillApp">
+        <dc:Bounds x="300" y="290" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0glitxu_di" bpmnElement="Activity_0glitxu">
+        <dc:Bounds x="430" y="120" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0vpetlv_di" bpmnElement="Gateway_0vpetlv" isMarkerVisible="true">
+        <dc:Bounds x="455" y="305" width="50" height="50" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_1s3ic50_di" bpmnElement="Association_1s3ic50">
         <di:waypoint x="621" y="290" />
         <di:waypoint x="633" y="245" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1v6mc06_di" bpmnElement="Association_1v6mc06">
+        <di:waypoint x="357" y="290" />
+        <di:waypoint x="365" y="240" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
