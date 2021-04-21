@@ -60,12 +60,36 @@
     <bpmn:userTask id="FillApp" name="Заполненить заявление на отпуск">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="Full_Name_Emp" label="ФИО сотрудника" type="string" />
-          <camunda:formField id="Full_Name_Lead" label="ФИО руководителя" type="string" />
-          <camunda:formField id="Group" label="Подразделение" type="string" />
-          <camunda:formField id="Date_Vac_start" label="Дата начала отпуска" type="date" />
-          <camunda:formField id="Date_Vac_end" label="Дата окончания отпуска" type="date" />
-          <camunda:formField id="Date_app" label="Дата заполнения заявления" type="date" />
+          <camunda:formField id="Full_Name_Emp" label="ФИО сотрудника" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="Full_Name_Lead" label="ФИО руководителя" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="Group" label="Подразделение" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="Date_Vac_start" label="Дата начала отпуска" type="date">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="Date_Vac_end" label="Дата окончания отпуска" type="date">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="Date_app" label="Дата заполнения заявления" type="date">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1y4vbka</bpmn:incoming>
@@ -74,12 +98,36 @@
     <bpmn:userTask id="Activity_0glitxu" name="Внести изменения в заявление на отпуск">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="Full_Name_Emp" label="ФИО сотрудника" type="string" />
-          <camunda:formField id="Full_Name_Lead" label="ФИО руководителя" type="string" />
-          <camunda:formField id="Group" label="Подразделение" type="string" />
-          <camunda:formField id="Date_Vac_start" label="Дата начала отпуска" type="date" />
-          <camunda:formField id="Date_Vac_end" label="Дата окончания отпуска" type="date" />
-          <camunda:formField id="Date_app" label="Дата заполнения заявления" type="date" />
+          <camunda:formField id="Full_Name_Emp" label="ФИО сотрудника" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="Full_Name_Lead" label="ФИО руководителя" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="Group" label="Подразделение" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="Date_Vac_start" label="Дата начала отпуска" type="date">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="Date_Vac_end" label="Дата окончания отпуска" type="date">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="Date_app" label="Дата заполнения заявления" type="date">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
           <camunda:formField id="Comment" label="Комментарий руководителя" type="string">
             <camunda:validation>
               <camunda:constraint name="readonly" />
@@ -114,9 +162,26 @@
       <bpmndi:BPMNShape id="Participant_17upsvn_di" bpmnElement="Participant_17upsvn" isHorizontal="true">
         <dc:Bounds x="160" y="80" width="780" height="510" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1rjngss_di" bpmnElement="TextAnnotation_1rjngss">
-        <dc:Bounds x="320" y="200" width="100" height="40" />
-      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1jtac8t_di" bpmnElement="Flow_1jtac8t">
+        <di:waypoint x="730" y="305" />
+        <di:waypoint x="730" y="160" />
+        <di:waypoint x="530" y="160" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="635" y="126" width="56" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_110oh6p_di" bpmnElement="Flow_110oh6p">
+        <di:waypoint x="505" y="330" />
+        <di:waypoint x="560" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1i8h8x5_di" bpmnElement="Flow_1i8h8x5">
+        <di:waypoint x="480" y="200" />
+        <di:waypoint x="480" y="305" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1y4vbka_di" bpmnElement="Flow_1y4vbka">
+        <di:waypoint x="238" y="330" />
+        <di:waypoint x="300" y="330" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0o4kqwb_di" bpmnElement="Flow_0o4kqwb">
         <di:waypoint x="730" y="355" />
         <di:waypoint x="730" y="410" />
@@ -140,26 +205,6 @@
         <di:waypoint x="400" y="330" />
         <di:waypoint x="455" y="330" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1y4vbka_di" bpmnElement="Flow_1y4vbka">
-        <di:waypoint x="238" y="330" />
-        <di:waypoint x="300" y="330" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1i8h8x5_di" bpmnElement="Flow_1i8h8x5">
-        <di:waypoint x="480" y="200" />
-        <di:waypoint x="480" y="305" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_110oh6p_di" bpmnElement="Flow_110oh6p">
-        <di:waypoint x="505" y="330" />
-        <di:waypoint x="560" y="330" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1jtac8t_di" bpmnElement="Flow_1jtac8t">
-        <di:waypoint x="730" y="305" />
-        <di:waypoint x="730" y="160" />
-        <di:waypoint x="530" y="160" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="635" y="126" width="56" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Event_1j0slml_di" bpmnElement="Event_1j0slml">
         <dc:Bounds x="852" y="312" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -181,9 +226,6 @@
       <bpmndi:BPMNShape id="Gateway_05zw3j6_di" bpmnElement="Gateway_05zw3j6" isMarkerVisible="true">
         <dc:Bounds x="705" y="305" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0aoj8nq_di" bpmnElement="TextAnnotation_0aoj8nq">
-        <dc:Bounds x="590" y="205" width="100" height="40" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1tmkoua_di" bpmnElement="FillApp">
         <dc:Bounds x="300" y="290" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -192,6 +234,12 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_0vpetlv_di" bpmnElement="Gateway_0vpetlv" isMarkerVisible="true">
         <dc:Bounds x="455" y="305" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0aoj8nq_di" bpmnElement="TextAnnotation_0aoj8nq">
+        <dc:Bounds x="590" y="205" width="100" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1rjngss_di" bpmnElement="TextAnnotation_1rjngss">
+        <dc:Bounds x="320" y="200" width="100" height="40" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_1s3ic50_di" bpmnElement="Association_1s3ic50">
         <di:waypoint x="621" y="290" />
